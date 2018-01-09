@@ -502,7 +502,7 @@ func ConvertToResMessage(response motan.Response, serialize motan.Serialization)
 		if rc.Serialized {
 			l = len(response.GetValue().([]byte))
 			if l == 0 {
-				vlog.Warningf("agent result is empty.req:%+v,res:%+v\n", request, response)
+				vlog.Warningf("agent result is empty.res:%+v\n", response)
 			}
 			if b, ok := response.GetValue().([]byte); ok {
 				res.Body = b
@@ -514,7 +514,7 @@ func ConvertToResMessage(response motan.Response, serialize motan.Serialization)
 			b, err := serialize.Serialize(response.GetValue())
 			l = len(b)
 			if l == 0 {
-				vlog.Warningf("agent result is empty.req:%+v,res:%+v\n", request, response)
+				vlog.Warningf("agent result is empty.res:%+v\n", response)
 			}
 			if err != nil {
 				return nil, err
