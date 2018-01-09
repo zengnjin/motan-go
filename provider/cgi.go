@@ -71,6 +71,7 @@ func buildQueryStr(request motan.Request, url *motan.URL) (res string, err error
 			}
 		}
 	}
+	res += "&requestIdFromClient=" + fmt.Sprintf("%d",request.GetRequestID())
 	return res, err
 }
 
