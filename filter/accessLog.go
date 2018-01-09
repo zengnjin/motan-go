@@ -2,6 +2,7 @@ package filter
 
 import (
 	"time"
+	"fmt"
 
 	motan "github.com/weibocom/motan-go/core"
 	"github.com/weibocom/motan-go/log"
@@ -40,7 +41,9 @@ func (t *AccessLogEndPointFilter) Filter(caller motan.Caller, request motan.Requ
 	success := true
 	l := 0
 	if response.GetValue() != nil {
-		l = len(response.GetValue().([]byte))
+		//l = len(response.GetValue().([]byte))
+		value := fmt.Sprintf("%v",response.GetValue())
+		l = len(value)
 	}
 	if success && l == 0 {
 		vlog.Warningf("result is empty.req:%+v,res:%+v\n", request, response)
