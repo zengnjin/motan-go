@@ -38,6 +38,13 @@ func (t *AccessLogEndPointFilter) Filter(caller motan.Caller, request motan.Requ
 	start := time.Now()
 	response := t.GetNext().Filter(caller, request)
 	success := true
+	l := 0
+	if response.GetValue() != nil {
+		l = len(response.GetValue().([]byte))
+	}
+	if success && l == 0 {
+		vlog.Warningf("result is empty.req:%+v,res:%+v\n", request, response)
+	}
 	if response.GetException() != nil {
 		success = false
 	}
