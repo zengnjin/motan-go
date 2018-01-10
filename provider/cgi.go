@@ -58,14 +58,14 @@ func buildQueryStr(request motan.Request, url *motan.URL) (res string, err error
 					start := 1
 					for k, v := range params {
 						if start == 1 {
-							res = k + "=" + v
+							res = k + "=" + URL.QueryEscape(v)
 							start++
 							continue
 						}
 						res = res + "&" + k + "=" + URL.QueryEscape(v)
 					}
 				case "string":
-					res = paramsTmp[0].(string)
+					res = URL.QueryEscape(paramsTmp[0].(string))
 				}
 			} else {
 				vlog.Errorf("CGI buildQueryStr error, arguments:%+v\n", request.GetArguments())
