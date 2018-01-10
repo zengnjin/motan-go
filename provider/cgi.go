@@ -9,6 +9,7 @@ import (
 	"strconv"
 	"strings"
 	"time"
+	URL "net/url"
 
 	cgi "github.com/beberlei/fastcgi-serve/fcgiclient"
 	motan "github.com/weibocom/motan-go/core"
@@ -61,7 +62,7 @@ func buildQueryStr(request motan.Request, url *motan.URL) (res string, err error
 							start++
 							continue
 						}
-						res = res + "&" + k + "=" + v
+						res = res + "&" + k + "=" + URL.QueryEscape(v)
 					}
 				case "string":
 					res = paramsTmp[0].(string)

@@ -153,7 +153,7 @@ func (h *HTTPProvider) Call(request motan.Request) motan.Response {
 	l := 0
 	l = len(body)
 	if l == 0 {
-		vlog.Warningf("server_agent result is empty.req:%+v\n", request)
+	vlog.Warningf("server_agent result is empty.req:%d,%d,%+v,%s,%s\n", statusCode,l,request,httpReqMethod, httpReqURL)
 	}
 	if err != nil {
 		vlog.Errorf("new HTTP Provider Read body err: %v", err)
