@@ -56,27 +56,21 @@ func TestSerializeNil(t *testing.T) {
 }
 
 func TestSerializeMulti(t *testing.T) {
-	//single value
 	simple := &SimpleSerialization{}
 	var rs string
-	verifySingleValue("string", &rs, simple, t)
+	verifyMulti("string", &rs, simple, t)
 	m := make(map[string]string, 16)
 	m["k"] = "v"
 	var rm map[string]string
-	verifySingleValue(m, &rm, simple, t)
-	verifySingleValue(nil, nil, simple, t)
+	verifyMulti(m, &rm, simple, t)
+	verifyMulti(nil, nil, simple, t)
 	b := []byte{1, 2, 3}
 	var rb []byte
-	verifySingleValue(b, &rb, simple, t)
-
-	//multi value
-	a := []interface{}{"stringxx", m, b, nil}
-	r := []interface{}{&rs, &rm, &rb, nil}
-	verifyMulti(a, r, simple, t)
+	verifyMulti(b, &rb, simple, t)
 
 }
 
-func verifySingleValue(i interface{}, reply interface{}, simple *SimpleSerialization, t *testing.T) {
+func verifyMulti(i interface{}, reply interface{}, simple *SimpleSerialization, t *testing.T) {
 	a := []interface{}{i}
 	b, err := simple.SerializeMulti(a)
 	if err != nil {
@@ -91,30 +85,9 @@ func verifySingleValue(i interface{}, reply interface{}, simple *SimpleSerializa
 	if err != nil {
 		t.Errorf("serialize multi fail. err:%v\n", err)
 	}
-
-	if len(na) != 1 {
+	if len(na) != 1 && na[0] != i {
 		t.Errorf("serialize multi fail. a:%v, na:%v\n", a, na)
 	}
-}
-
-func verifyMulti(v []interface{}, reply []interface{}, simple *SimpleSerialization, t *testing.T) {
-	b, err := simple.SerializeMulti(v)
-	if err != nil {
-		t.Errorf("serialize multi fail. err:%v\n", err)
-	}
-	if len(b) < 1 {
-		t.Errorf("serialize multi fail. b:%v\n", b)
-	}
-
-	result, err := simple.DeSerializeMulti(b, reply)
-	fmt.Printf("format:%+v\n", result)
-	if err != nil {
-		t.Errorf("serialize multi fail. err:%v\n", err)
-	}
-	if len(reply) != len(v) {
-		t.Errorf("serialize multi fail. len:%d\n", len(reply))
-	}
-
 }
 
 func verifyString(s string, simple *SimpleSerialization, t *testing.T) {
