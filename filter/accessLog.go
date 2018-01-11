@@ -46,7 +46,7 @@ func (t *AccessLogEndPointFilter) Filter(caller motan.Caller, request motan.Requ
 		l = len(value)
 	}
 	if success && l == 0 {
-		vlog.Warningf("result is empty.req:%+v,res:%+v\n", request, response)
+		success = false
 	}
 	if response.GetException() != nil {
 		success = false
