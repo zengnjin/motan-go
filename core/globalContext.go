@@ -188,7 +188,6 @@ func parsePool(path string, pool string) (*cfg.Config, error) {
 	var tempcfg *cfg.Config
 	var err error
 
-	fmt.Printf("path=%s,pool=%s", path, pool)
 	// basic config
 	tempcfg, err = cfg.NewConfigFromFile(path + basicConfig)
 	if err == nil && tempcfg != nil {
@@ -199,11 +198,12 @@ func parsePool(path string, pool string) (*cfg.Config, error) {
 	poolPart := strings.Split(pool, poolNameSeparator)
 	var appconfig *cfg.Config
 	application := *Application
+
 	if application == "" && len(poolPart) > 0 { // the first part be the application name
 		application = poolPart[0]
 	}
+	fmt.Println("path=%s,application=%s,pool=%s", path, application, pool)
 	application = path + applicationPath + application + fileSuffix
-	fmt.Printf("application=%s", application)
 	if application != "" {
 		appconfig, err = cfg.NewConfigFromFile(application)
 		if err == nil && appconfig != nil {
