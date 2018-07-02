@@ -1,6 +1,8 @@
 package filter
 
-import motan "github.com/weibocom/motan-go/core"
+import (
+	motan "github.com/weibocom/motan-go/core"
+)
 
 // ext name
 const (
@@ -8,6 +10,8 @@ const (
 	Metrics        = "metrics"
 	CircuitBreaker = "circuitbreaker"
 	FailFast       = "failfast"
+	ClusterMetrics = "clusterMetrics"
+	Trace          = "trace"
 )
 
 func RegistDefaultFilters(extFactory motan.ExtentionFactory) {
@@ -25,5 +29,13 @@ func RegistDefaultFilters(extFactory motan.ExtentionFactory) {
 
 	extFactory.RegistExtFilter(FailFast, func() motan.Filter {
 		return &FailfastFilter{}
+	})
+
+	extFactory.RegistExtFilter(ClusterMetrics, func() motan.Filter {
+		return &ClusterMetricsFilter{}
+	})
+
+	extFactory.RegistExtFilter(Trace, func() motan.Filter {
+		return &TracingFilter{}
 	})
 }
