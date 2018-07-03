@@ -230,6 +230,10 @@ func BuildHeader(msgType int, proxy bool, serialize int, requestID uint64, msgSt
 func (msg *Message) Encode() (buf *motan.BytesBuffer) {
 	metabuf := motan.NewBytesBuffer(256)
 	msg.Metadata.Range(func(k, v string) bool {
+		if k == "" || v == "" || strings.Contains(k, "\n") || strings.Contains(v, "\n") {
+			vlog.Errorf("meta info not correct.k:%s, v:%s\n", k, v)
+			return true
+		}
 		metabuf.Write([]byte(k))
 		metabuf.WriteByte('\n')
 		metabuf.Write([]byte(v))

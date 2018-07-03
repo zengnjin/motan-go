@@ -64,7 +64,7 @@ var (
 	Port         = flag.Int("port", 0, "agent listen port")
 	Mport        = flag.Int("mport", 0, "agent manage port")
 	Pidfile      = flag.String("pidfile", "", "agent manage port")
-	CfgFile      = flag.String("c", "./motan.yaml", "motan run conf")
+	CfgFile      = flag.String("c", "", "motan run conf")
 	LocalIP      = flag.String("localIP", "", "local ip for motan register")
 	IDC          = flag.String("idc", "", "the idc info for agent or client.")
 	DynamicConfs = flag.String("dynamicConf", "", "dynamic config file for config placeholder")
@@ -202,7 +202,7 @@ func parsePool(path string, pool string) (*cfg.Config, error) {
 	if application == "" && len(poolPart) > 0 { // the first part be the application name
 		application = poolPart[0]
 	}
-	fmt.Println("path=%s,application=%s,pool=%s", path, application, pool)
+	fmt.Printf("path=%s,application=%s,pool=%s\n", path, application, pool)
 	application = path + applicationPath + application + fileSuffix
 	if application != "" {
 		appconfig, err = cfg.NewConfigFromFile(application)
@@ -249,7 +249,7 @@ func parsePool(path string, pool string) (*cfg.Config, error) {
 		c.ReplacePlaceHolder(ph)
 	}
 
-	fmt.Printf("config=%s", c.GetOriginMap())
+	fmt.Printf("config=%s\r", c.GetOriginMap())
 	if len(c.GetOriginMap()) == 0 {
 		return nil, errors.New("parse " + pool + " pool fail.")
 	}

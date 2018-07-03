@@ -92,7 +92,7 @@ func (m *MotanServer) handleConn(conn net.Conn) {
 		request, err := mpro.Decode(buf)
 		if err != nil {
 			if err.Error() != "EOF" {
-				vlog.Warningf("decode motan message fail! con:%s\n.", conn.RemoteAddr().String())
+				vlog.Warningf("decode motan message fail! con:%s, err:%s\n.", conn.RemoteAddr().String(), err.Error())
 			}
 			break
 		}
