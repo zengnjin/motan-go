@@ -241,6 +241,9 @@ func (msg *Message) Encode() (buf *motan.BytesBuffer) {
 		metabuf.WriteByte('\n')
 		return true
 	})
+	if metabuf.Len() > 0 {
+		metabuf.SetWPos(metabuf.GetWPos() - 1)
+	}
 	metasize := metabuf.Len()
 	bodysize := len(msg.Body)
 	buf = motan.NewBytesBuffer(int(HeaderLength + bodysize + metasize + 8))
